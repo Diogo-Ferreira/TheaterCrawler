@@ -24,6 +24,7 @@
     "nodemon": "^1.18.4"
   },
   "dependencies": {
+    "lodash": "^4.17.11",
     "node-fetch": "^2.2.0"
   }
 }
