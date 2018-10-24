@@ -2,31 +2,34 @@
 
 import { crawl } from './crawler'
 import _ from 'lodash'
+import moment from 'moment';
 
-let results = {};
+let currentMovies = {};
 
-const main = async (fakeData) => {
+const main = async (startDate, endDate) => {
   const host = 'https://www.cinevital.ch/'
   try {
-    const crawledData = await crawl(`${host}/fr/biel.html`)
-    const resultKeys = Object.keys(results)
-    const crawledDataKeys = Object.keys({...fakeData, ...crawledData})
-    if (resultKeys.length > 0) {
-      const diff = _.difference(crawledDataKeys, resultKeys)
-      if (diff.length > 0) {
-        console.log('Theres new data')
-      }
-    }
-
-    results = {...crawledData};
-
+    const crawledData = await crawl(`${host}/fr/biel.html?date=${startDate}&sdate=${endDate}`)
+    return crawledData
   } catch (error) {
     console.log(error)
   }
 };
+
 (async () => {
-  await main()
-  await main({'coolMovie': {}})
+  const baseDate = moment();
+  const baseDateStr = baseDate.format('YYYY-M-D')
+  const numberOfDays = 1;
+  
+  const dates = Array(numberOfDays)
+    .fill()
+    .map(_ => baseDate.add(1, 'day').format('YYYY-M-D'))
+
+  const crawlings = dates.map(async date => await main(baseDateStr, date))
+
+  const results = await Promise.all(crawlings)
+
+  console.log(results)
 })()
 
 
