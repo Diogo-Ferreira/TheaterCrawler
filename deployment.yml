@@ -19,5 +19,3 @@ spec:
           - secretRef:
               name: slack-web-hook
         imagePullPolicy: Always
-      imagePullSecrets:
-      - name: regcred
