@@ -1,0 +1,23 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: crawler-deployment
+spec:
+  selector:
+    matchLabels:
+      app: crawler
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: crawler
+    spec:
+      containers:
+      - name: crawler
+        image: diogoferreira/crawler
+        envFrom:
+          - secretRef:
+              name: slack-web-hook
+        imagePullPolicy: Always
+      imagePullSecrets:
+      - name: regcred
