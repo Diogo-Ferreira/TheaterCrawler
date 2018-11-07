@@ -10,6 +10,15 @@ jobs:
           docker build -t diogoferreira/crawler .
           docker tag diogoferreira/crawler diogoferreira/crawler:$TAG
           docker tag diogoferreira/crawler diogoferreira/crawler:latest
-          docker push diogoferreira/crawler
+  push:
+    branches:
+      only:
+        - master
+    machine: true
+      steps:
+      - run: |
+        docker push diogoferreira/crawler
+      
+        
 
 
