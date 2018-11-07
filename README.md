@@ -1,6 +1,6 @@
 # TheaterCrawler
 
-This script crawls a movie theather website periodically in another to detect new movies.
+This script crawls a movie theather website periodically in order to detect new movies.
 
 New movies are sent via a slack channel.
 
