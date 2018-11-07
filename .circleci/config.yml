@@ -17,7 +17,7 @@ jobs:
     machine: true
     steps:
       - run: |
-        docker push diogoferreira/crawler
+          docker push diogoferreira/crawler
       
         
 
