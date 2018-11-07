@@ -65,7 +65,7 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
 
 
 (async () => {
-  console.log("BONJORNO !")
+  console.log("MOSHI MOSHI !")
   while(true) {
     try {
       await main(14)
