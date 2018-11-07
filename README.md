@@ -10,6 +10,8 @@ Get your slack webhook url and set it inside `.env`, see `.env-example`
 
 # Deployment on Kubernetes
 
+coucou
+
 1. Create secret
 
 ```
