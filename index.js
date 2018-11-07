@@ -8,6 +8,8 @@ import { timeout } from './utils';
 
 let currentMovies = new Set();
 
+const { ENV } = process.env
+
 const crawlBeetween = async (startDate, endDate) => {
   const host = 'https://www.cinevital.ch/'
   try {
@@ -32,14 +34,14 @@ const main = async (days) => {
 
   const results = await Promise.all(crawlings)
 
-  const firstTime = currentMovies.size === 0
+  const firstTime = currentMovies.size === 0 && ENV !== 'DEV'
 
   const {newMovies} =  compareResulstsAndGetNewMovies(currentMovies, results, firstTime);
 
   currentMovies = new Set([...newMovies.map(i => i.movie), ...currentMovies])
 
   if (newMovies.length > 0 && !firstTime) {
-    onNewMovies(newMovies)
+    await onNewMovies(newMovies)
   }
 };
 
