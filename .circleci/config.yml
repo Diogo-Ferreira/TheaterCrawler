@@ -10,22 +10,11 @@ jobs:
           docker build -t diogoferreira/crawler .
           docker tag diogoferreira/crawler diogoferreira/crawler:$TAG
           docker tag diogoferreira/crawler diogoferreira/crawler:latest
-  push:
-    machine: true
-    steps:
       - run: |
-          docker push diogoferreira/crawler
-workflows:
-  version: 2
-  workflow:
-    jobs:
-    - build
-    - push:
-      requires:
-        - build
-      filters:
-        branches:
-          only: master
+          if [ "$CIRCLE_BRANCH" == "master" ]; then        
+            docker push diogoferreira/crawler
+          fi
+        
       
         
 
