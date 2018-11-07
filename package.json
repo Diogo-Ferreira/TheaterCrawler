@@ -6,7 +6,7 @@
   "scripts": {
     "build": "babel ./ -d dist --presets es2015,stage-2 --ignore ./node_modules",
     "test": "node test.js --exec babel-node --presets es2015,stage-2",
-    "start": "nodemon index.js --exec babel-node --presets es2015,stage-2"
+    "start": "nodemon --inspect index.js --exec babel-node --presets es2015,stage-2"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "cheerio": "^1.0.0-rc.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
+    "moviedb": "^0.2.10",
     "node-fetch": "^2.2.0"
   }
 }
