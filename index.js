@@ -65,7 +65,6 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
 
 
 (async () => {
-  console.log("OLA !")
   while(true) {
     try {
       await main(14)
