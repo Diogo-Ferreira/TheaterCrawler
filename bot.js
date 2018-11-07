@@ -6,11 +6,12 @@ import { timeout } from './utils';
 const webhook = new IncomingWebhook(process.env.SLACK_WEB_HOOK)
 const movieApi = MovieDB(process.env.MOVIE_DB_TOKEN)
 
-const createAttachement = ({original_title, overview, trailerId, firstDay, poster_path}) => ({
+const createAttachement = ({id, original_title, overview, trailerId, firstDay, poster_path}) => ({
     "fallback": "Required plain-text summary of the attachment.",
     "color": "grey",
-    "author_name": original_title,
-    "title": `Will be availabe starting ${firstDay}`,
+    "title": original_title,
+    "title_link": `https://www.themoviedb.org/movie/${id}`,
+    "author_name": `Will be availabe starting ${firstDay}`,
     "text": `${overview}\n ${trailerId && `<https://youtube.com/watch?v=${trailerId}| Watch trailer>`}`,
     "thumb_url": `http://image.tmdb.org/t/p/w185${poster_path}`
 })
@@ -48,7 +49,8 @@ const fetchMovieData = async ({ movie }) => {
         poster_path,
         overview,
         original_title,
-        trailerId
+        trailerId,
+        id: firstMovie.id
     }
 }
 
