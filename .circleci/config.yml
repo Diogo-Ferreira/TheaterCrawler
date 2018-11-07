@@ -3,6 +3,7 @@ jobs:
   build:
     machine: true
     steps:
+      - checkout
       - run: |
           docker login -u $docker_id -p $docker_password
           TAG=$CIRCLE_BUILD_NUM
