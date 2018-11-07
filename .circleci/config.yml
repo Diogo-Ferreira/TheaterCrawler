@@ -11,9 +11,6 @@ jobs:
           docker tag diogoferreira/crawler diogoferreira/crawler:$TAG
           docker tag diogoferreira/crawler diogoferreira/crawler:latest
   push:
-    branches:
-      only:
-        - master
     machine: true
     steps:
       - run: |
@@ -23,7 +20,12 @@ workflows:
   workflow:
     jobs:
     - build
-    - push
+    - push:
+      requires:
+        - build
+      filters:
+        branches:
+          only: master
       
         
 
