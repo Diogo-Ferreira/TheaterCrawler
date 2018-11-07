@@ -18,6 +18,12 @@ jobs:
     steps:
       - run: |
           docker push diogoferreira/crawler
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build
+    - push
       
         
 
