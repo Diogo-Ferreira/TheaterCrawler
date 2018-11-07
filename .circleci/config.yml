@@ -15,7 +15,7 @@ jobs:
       only:
         - master
     machine: true
-      steps:
+    steps:
       - run: |
         docker push diogoferreira/crawler
       
