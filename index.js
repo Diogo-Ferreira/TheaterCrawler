@@ -21,7 +21,7 @@ const crawlBeetween = async (startDate, endDate) => {
 };
 
 const main = async (days) => {
-  console.log('Starting crawling eheh !')
+  console.log('Starting crawling, bonjour dom et bryan !')
   const baseDate = moment()
   const baseDateStr = baseDate.format('YYYY-M-D')
   const numberOfDays = days || 7
