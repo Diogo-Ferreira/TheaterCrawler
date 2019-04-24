@@ -32,6 +32,7 @@
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "moviedb": "^0.2.10",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "statsd-client": "^0.4.2"
   }
 }

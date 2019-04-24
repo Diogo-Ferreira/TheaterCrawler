@@ -5,6 +5,13 @@ import _ from 'lodash'
 import moment from 'moment';
 import { onNewMovies } from './bot';
 import { timeout } from './utils';
+import SDC from 'statsd-client'
+import os from 'os'
+
+export const sdc = new SDC({
+  host: process.env.STATSD_HOST || 'localhost',
+  port: process.env.STATSD_PORT || '8125',
+})
 
 let currentMovies = new Set();
 
@@ -28,7 +35,7 @@ const main = async (days) => {
   
   const dates = Array(numberOfDays)
     .fill()
-    .map(_ => baseDate.add(1, 'day').format('YYYY-M-D'))
+    .map(_ => baseDate.add(20, 'day').format('YYYY-M-D'))
 
   const crawlings = dates.map(async date => ({date, data: await crawlBeetween(baseDateStr, date)}))
 
@@ -43,6 +50,7 @@ const main = async (days) => {
   if (newMovies.length > 0 && !firstTime) {
     await onNewMovies(newMovies)
   }
+  sdc.increment('tc.numberOfCrawlings', 10)
 };
 
 export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
@@ -53,6 +61,8 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
     data.forEach(movie => {
       if (!movies.has(movie)) {
         newMovies.push({firstDay: date, movie});
+        sdc.increment(`tc.newMoviesByWeek.${moment().format('MMM')}`, 1)
+        
       }
       movies.add(movie)
     })
@@ -65,10 +75,17 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
 
 
 (async () => {
+  const execTime = process.hrtime()
   while(true) {
     try {
+      const hrstart = process.hrtime()
       await main(14)
+      const [seconds, nanoseconds] = process.hrtime(hrstart)
+      sdc.timing('tc.crawlingTimeSeconds', seconds)
+      sdc.timing('tc.crawlingTimeNanoSeconds', nanoseconds)
       await timeout(60 * 60000)
+      const [aliveSinceSeconds, _] = process.hrtime(execTime);
+      sdc.gauge(`tc.aliveSince.${os.hostname()}`, aliveSinceSeconds)
     } catch (err) {
       console.log(err)
     }
