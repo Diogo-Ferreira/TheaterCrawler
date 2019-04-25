@@ -25,5 +25,5 @@ spec:
               name: slack-web-hook
         env:
           - name: STATSD_HOST
-            value: "grafana.default.svc.cluster.local"
+            value: "graphite.default.svc.cluster.local"
         imagePullPolicy: Always
