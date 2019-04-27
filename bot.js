@@ -2,6 +2,7 @@
 import { IncomingWebhook } from '@slack/client'
 import  MovieDB from 'moviedb'
 import { timeout } from './utils';
+import { sdc } from './index'
 
 const webhook = new IncomingWebhook(process.env.SLACK_WEB_HOOK)
 const movieApi = MovieDB(process.env.MOVIE_DB_TOKEN)
@@ -17,12 +18,16 @@ const createAttachement = ({id, original_title, overview, trailerId, firstDay, p
 })
 
 const fetchMovieData = async ({ movie }) => {
+    const hrstart = process.hrtime();
     const { results } = await new Promise((resolve, reject) => movieApi.searchMovie({ query: movie }, (err, res) => {
         if (err) {
             reject(err)
         }
         resolve(res)
     })) 
+    console.log(code, etc);
+    const [_, ms] = process.hrtime(hrstart);
+    sdc.timing('tc.movieDb.fetchTime', ms)
 
     await timeout(2000) // stress moviedb api we must not
     

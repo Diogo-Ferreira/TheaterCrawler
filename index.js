@@ -62,7 +62,6 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
       if (!movies.has(movie)) {
         newMovies.push({firstDay: date, movie});
         sdc.increment(`tc.newMoviesByWeek.${moment().format('MMM')}`, 1)
-        
       }
       movies.add(movie)
     })
@@ -86,8 +85,10 @@ export const compareResulstsAndGetNewMovies = (currentMovies, results) => {
       await timeout(60 * 60000)
       const [aliveSinceSeconds, _] = process.hrtime(execTime);
       sdc.gauge(`tc.aliveSince.${os.hostname()}`, aliveSinceSeconds)
+      sdc.gauge(`tc.numberMoviesInMemory.${os.hostname()}`, currentMovies.size)
     } catch (err) {
       console.log(err)
+      sdc.increment(`tc.errors.${os.hostname()}`, 1)
     }
   }
 })()

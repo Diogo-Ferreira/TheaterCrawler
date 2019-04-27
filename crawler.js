@@ -1,8 +1,12 @@
 import fetch from 'node-fetch'
 import cheerio from 'cheerio'
+import { sdc } from './index'
 
 const fetchData = async (url) => {
+  const hrstart = process.hrtime()
   const response = await fetch(url)
+  const [_, ms] = process.hrtime(hrstart)
+  sdc.timing('tc.cinevital.fetchMoviePageTimeMs', ms);
   return await response.text()
 }
 
@@ -24,5 +28,6 @@ export const crawl = async (url) => {
     return details
   } catch (error) {
     console.log(error)
+    sdc.increment('tc.cinevital.numberCrawlErrors', 1)
   }
 }
