@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel ./ -d dist --presets es2015,stage-2 --ignore ./node_modules",
     "test": "node test.js --exec babel-node --presets es2015,stage-2",
-    "start": "nodemon --inspect index.js --exec babel-node --presets es2015,stage-2"
+    "start": "nodemon --inspect index.js --exec babel-node --presets es2015,stage-2",
+    "cleanTweets": "nodemon --inspect cleanTweets.js --exec babel-node --presets es2015,stage-2"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "moment": "^2.22.2",
     "moviedb": "^0.2.10",
     "node-fetch": "^2.2.0",
-    "statsd-client": "^0.4.2"
+    "statsd-client": "^0.4.2",
+    "twitter": "^1.7.1"
   }
 }
